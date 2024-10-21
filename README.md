@@ -155,13 +155,6 @@
         <sub><b>이지원(Frontend)</b></sub>
       </a>
     </td>
-    <td align="center">
-      <a href="https://github.com/HyunSoo730">
-        <img src="https://github.com/HyunSoo730.png" width="110px;" alt="조현수"/>
-        <br />
-        <sub><b>조현수(Backend)</b></sub>
-      </a>
-    </td>
   </tr>
 </table>
 
