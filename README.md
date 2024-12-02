@@ -18,24 +18,33 @@
 
 차용박사는 단순한 금전 거래 플랫폼을 넘어, 개인 간 금전 거래의 새로운 패러다임을 제시합니다. 신뢰성, 안전성, 편의성을 핵심 가치로 삼아, 모든 사용자가 안심하고 이용할 수 있는 서비스를 만들어가고 있습니다. 앞으로도 차용박사는 사용자들의 피드백을 반영하며 지속적으로 서비스를 개선하여, 더 나은 금전 거래 문화를 만들어 나가겠습니다. 💪
 
+## 🏗️ 인프라 아키텍처
+[![시스템 아키텍쳐](https://i.postimg.cc/DwpByTY0/Dr-Cha-2.png)](https://postimg.cc/XrFwQTW6)
 
-## 👥 팀 소개
+저희 프로젝트의 인프라 아키텍처는 안정적이고 확장 가능한 모놀리식 구조로 설계되었으며, AI 서비스 통합과 성능 개선을 위한 지속적인 고도화를 진행할 예정입니다.
 
-### 백엔드
+### 👍 아키텍처 (모놀리식)
 
-|    지종권       |          박경림         |          강민서         |                                                                                                             
-| :---: | :---: | :---: |
-|   <img width="300px" src="https://github.com/jijongkwon.png" />    |   <img width="300px" src="https://github.com/g16rim.png" />    |   <img width="300px" src="https://github.com/cjo5929.png" />    |
-|   [@jijongkwon](https://github.com/jijongkwon)    |    [@g16rim](https://github.com/g16rim)  |    [@cjo5929](https://github.com/cjo5929)  |
-| SSAFY <br> 👨‍💻 Backend <br> 🛠 Infra | SSAFY <br> 👨‍💻 Backend | SSAFY <br> 👨‍💻 Backend | SSAFY <br> 👨‍💻 Backend <br> 🤖 AI |
+#### 네트워크 및 보안
+- EC2 인스턴스에서 80(HTTP)과 443(HTTPS) 포트만 외부에 개방하여 보안을 강화했습니다.
+- Nginx를 리버스 프록시로 사용하여 들어오는 모든 트래픽을 관리하고 적절히 라우팅합니다.
+ - `/`: 프론트엔드 애플리케이션으로 라우팅
+ - `/api`: 백엔드 API 서버로 요청 전달
+ - `/ai`: Meta AI 및 LangChain 서비스로 요청 전달
 
-### 프론트엔드
+#### 컨테이너화
+- 모든 서비스(프론트엔드, 백엔드, AI 서비스, Redis 등)는 단일 EC2 인스턴스 내에서 Docker 컨테이너로 실행됩니다.
+- Docker Compose를 사용하여 다중 컨테이너 애플리케이션을 정의하고 실행합니다.
+- Redis 컨테이너를 활용하여 데이터 캐싱 및 세션 관리를 수행합니다.
 
-|    이지원      |          김선웅         |                                                                                                               
-| :---: | :---: | 
-|   <img width="300px" src="https://github.com/LEEJW1953.png" />    |   <img width="300px" src="https://github.com/LineHero.png" />    |
-|   [@LEEJW1953](https://github.com/LEEJW1953)   |    [@LineHero](https://github.com/LineHero)  |
-| SSAFY <br> 🎨 Frontend | SSAFY <br> 🎨 Frontend |
+#### CI/CD 파이프라인
+- GitLab을 사용하여 소스 코드를 관리하고, Webhook을 통해 변경 사항을 감지합니다.
+- Jenkins를 CI/CD 도구로 사용하여 자동화된 빌드, 테스트, 배포 프로세스를 구현했습니다.
+- MatterMost 연동을 통해 배포 상태(성공/실패)를 실시간으로 팀원들에게 알립니다.
+
+#### 모니터링 및 로깅
+- Grafana를 통한 실시간 시스템 모니터링 구현
+- 배포 이력 및 성능 메트릭스 시각화
 
 ## 🛠️ 기술 스택
 <details>
@@ -208,35 +217,7 @@ LLM 모델을 기반으로 사용자 간 대화 컨텍스트를 분석하고 법
 
 <br>
 
-## 🏗️ 인프라 아키텍처
-[![시스템 아키텍쳐](https://i.postimg.cc/DwpByTY0/Dr-Cha-2.png)](https://postimg.cc/XrFwQTW6)
-
-저희 프로젝트의 인프라 아키텍처는 안정적이고 확장 가능한 모놀리식 구조로 설계되었으며, AI 서비스 통합과 성능 개선을 위한 지속적인 고도화를 진행할 예정입니다.
-
-### 👍 1. 현재 아키텍처 (모놀리식)
-
-#### 네트워크 및 보안
-- EC2 인스턴스에서 80(HTTP)과 443(HTTPS) 포트만 외부에 개방하여 보안을 강화했습니다.
-- Nginx를 리버스 프록시로 사용하여 들어오는 모든 트래픽을 관리하고 적절히 라우팅합니다.
- - `/`: 프론트엔드 애플리케이션으로 라우팅
- - `/api`: 백엔드 API 서버로 요청 전달
- - `/ai`: Meta AI 및 LangChain 서비스로 요청 전달
-
-#### 컨테이너화
-- 모든 서비스(프론트엔드, 백엔드, AI 서비스, Redis 등)는 단일 EC2 인스턴스 내에서 Docker 컨테이너로 실행됩니다.
-- Docker Compose를 사용하여 다중 컨테이너 애플리케이션을 정의하고 실행합니다.
-- Redis 컨테이너를 활용하여 데이터 캐싱 및 세션 관리를 수행합니다.
-
-#### CI/CD 파이프라인
-- GitLab을 사용하여 소스 코드를 관리하고, Webhook을 통해 변경 사항을 감지합니다.
-- Jenkins를 CI/CD 도구로 사용하여 자동화된 빌드, 테스트, 배포 프로세스를 구현했습니다.
-- MatterMost 연동을 통해 배포 상태(성공/실패)를 실시간으로 팀원들에게 알립니다.
-
-#### 모니터링 및 로깅
-- Grafana를 통한 실시간 시스템 모니터링 구현
-- 배포 이력 및 성능 메트릭스 시각화
-
-### 👍 2. 향후 개선 계획
+### 👍 향후 개선 계획
 
 #### 마이크로서비스 전환 검토
 - AI 서비스를 독립적인 서비스로 분리
@@ -251,6 +232,12 @@ LLM 모델을 기반으로 사용자 간 대화 컨텍스트를 분석하고 법
 - 로드 밸런서 도입을 통한 트래픽 분산
 - 캐싱 전략 고도화
 
+## 👥 팀 소개
+|    이지원      |          김선웅         |    지종권       |          박경림         |          강민서         |
+| :---: | :---: | :---: | :---: | :---: |
+| <img width="150px" src="https://github.com/LEEJW1953.png" /> | <img width="150px" src="https://github.com/LineHero.png" /> | <img width="150px" src="https://github.com/jijongkwon.png" /> | <img width="150px" src="https://github.com/g16rim.png" /> | <img width="150px" src="https://github.com/cjo5929.png" /> |
+| [@LEEJW1953](https://github.com/LEEJW1953) | [@LineHero](https://github.com/LineHero) | [@jijongkwon](https://github.com/jijongkwon) | [@g16rim](https://github.com/g16rim) | [@cjo5929](https://github.com/cjo5929) |
+| SSAFY <br> 🎨 Frontend | SSAFY <br> 🎨 Frontend | SSAFY <br> 👨‍💻 Backend <br> 🛠 Infra | SSAFY <br> 👨‍💻 Backend | SSAFY <br> 👨‍💻 Backend |
 
 
 
